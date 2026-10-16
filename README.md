@@ -1,117 +1,76 @@
-# Putt Pop Highlands - Unreal edition
+# Putt Pop — Arcade Mini Golf
 
-**Status: project source and Blender scenery prepared. Unreal Engine is not
-installed on this computer, so the Unreal module, asset builder, map, and gameplay
-have not yet been compiled or tested in Unreal.** The Blender preview is labeled
-as such. The earlier Unity Windows game remains available.
+The new **Unreal project source and detailed Blender landscape** are in
+`unreal/PuttPop`. See its README and `PuttPop-Unreal.code-workspace` for editing.
+Unreal is not installed yet, so this edition still needs compilation and an
+engine play-test. After installing Unreal and the C++ tools, use
+`Prepare Unreal Project.cmd`. Its preview is a Blender render, not Unreal footage.
 
-## Open it
+The **Unity edition** is in `unity/PuttPopHighlands`. Double-click
+`Open Unity Game.cmd` to open it, or add that project folder in Unity Hub.
+Open `Assets/PuttPop/Scenes/Highlands.unity` and press Play. Its README covers
+editing, rebuilding the Blender assets, controls, and Windows builds.
+The Unity edition adds an editable mountain basin, pine forest, rocky shores,
+a reflective lake, waterfall mist and the close overhead camera.
 
-1. Install [Unreal Engine 5 through Epic Games Launcher](https://www.unrealengine.com/download).
-   This project targets current UE5 APIs; an engine association is deliberately
-   omitted so your installed UE5 version can register it.
-2. Install Visual Studio 2022 (or its Build Tools) with the C++ game development
-   tools, MSVC and a Windows SDK. Epic's
-   [Visual Studio setup guide](https://dev.epicgames.com/documentation/en-us/unreal-engine/setting-up-visual-studio-for-unreal-engine)
-   lists the compiler requirements for your engine version.
-3. Double-click `Prepare Unreal Project.cmd` in the main `arcade-mini-golf`
-   folder. It compiles the editor module, opens Unreal and runs the landscape
-   builder. The first shader/mesh build can take a while.
-4. When the Output Log says **native assets and Highlands map saved**, open
-   `/Game/Highlands/Maps/Highlands` and press Play. Compilation or Python errors
-   must be resolved before this step; see `Saved/Logs` and `QA`.
+The browser edition below remains available.
 
-For an engine installed somewhere else:
+A 3D arcade mini golf game with six elevated Blender-built courses and a close angled overhead camera. Aurora Highlands adds floating islands, waterfalls, a mountain backdrop, a cratered moon, an aurora sky, and animated lake water. Includes PBR turf and brass, modeled golf ball dimples, reflections, bloom, bank shots, bumpers, a rotating gate, sound effects, and a local personal best.
 
-```powershell
-.\unreal\Prepare-Unreal.ps1 -EngineRoot "D:\Epic Games\UE_5.x"
+## Open in VS Code
+
+Open this folder, then run in the terminal:
+
+```sh
+npm run dev
 ```
 
-Open `PuttPop-Unreal.code-workspace` from the main folder in VS Code to edit
-the C++ game and Python asset builder. The `.uproject` file is here in `PuttPop`.
+Visit **http://127.0.0.1:4187**. Node.js 20 or newer is recommended. No installation or build step is required. The Three.js runtime is included in `dist/vendor` with its license. Fonts use Google Fonts with local fallbacks.
 
-## Landscape
+## Controls
 
-- Original 320 x 320 metre mountain basin, divided into 64 mesh tiles.
-- Layered rock and meadow surfaces, snowy summits and a rippled reflective lake.
-- 955 varied pine instances, with modeled branches, twigs and individual needles.
-- Fern leaflets, grass blades and four displaced mossy boulder variations.
-- A cedar clubhouse with standing-seam roof and warm windows.
-- A 78-plank timber boardwalk and a tiered cliff waterfall with foam rings.
-- Six existing detailed Blender courses, elevated putting surfaces, moving
-  obstacle pivots and the original dimpled ball.
+- Mouse/touch: drag backwards to choose your shot direction and power, then release to putt.
+- Keyboard: Left/Right to aim; hold Space to build power, release to putt. Escape cancels a shot.
+- Full course zooms out for planning. Closer view restores the medium overhead camera. Both views use the same controls.
+- The default camera looks down at the course at an angle and pans toward the active ball. Use the + and minus buttons to zoom in or out. It is closer than the full map. Reduced motion settings make repositioning immediate.
+- Uphill ramps slow the ball; downhill ramps accelerate it. Weak uphill putts can roll back. All tees and cups sit on flat sections.
+- Retry hole resets the current hole and its strokes. Start a fresh round resets all six holes.
+- Personal best is stored in this browser only. The game remains playable when browser storage is unavailable.
 
-The exports contain 101 unique mesh assets and about 1.4 million unique triangles.
-The full scene uses linked/instanced meshes. In Unreal, foliage uses HISM groups,
-three generated mesh detail levels, and groundcover distance culling. Terrain,
-boulders and pines request Nanite, with area preservation on the pine needles.
-Lumen software lighting, sky capture, virtual shadows,
-subtle fog and grading are configured. Performance and final appearance still
-need measurement in the installed engine, particularly on the integrated GPU.
+## Files
 
-`SourceArt/Putt-Pop-Unreal-Highlands.blend` is the editable scene.
-`QA/blender-landscape-preview.png` is a Blender render of this scene.
-Every original mesh also has an FBX for manual reuse.
+- `dist/index.html` — page and interface
+- `dist/style.css` — responsive visual design
+- `dist/game.js` — Three.js scene, input, audio, scorecard
+- `dist/physics.js` — courses and fixed-step golf physics
+- `dist/graphics.js` — GLB loading, HDR reflections, bloom, and tone mapping
+- `dist/terrain.js` — terrain subdivision for the playable fallback environment
+- `dist/backdrop.js` — aurora sky and animated lake
+- `dist/assets/courses/` — six Blender-exported GLB environments with embedded textures
+- `dist/assets/golf-ball.glb` — golf ball with 330 modeled dimples
+- `art/blender/Putt-Pop-Aurora-Highlands-Overhead.blend` — current Blender source with raised courses, backdrop, and the overhead camera
+- `art/blender/Putt-Pop-Botanical-Courses.blend` — retained flat source used to regenerate the assets
+- `art/blender/highlands-overhead-preview.png` — Blender Cycles preview of the opening course in the new camera
+- `art/blender/highlands-finale-preview.png` — Blender Cycles preview of the three-tier finale
+- `art/blender/highlands-report.json` — elevation profiles and export summary
+- `art/blender/asset-report.json` — verified export counts and texture details
+- `tests/` — physics and interface logic checks; run `npm test`
+- `.openai/hosting.json` — Sites hosting configuration
 
-`SourceArt/Highlands_1009.r16` is an optional native Landscape heightmap. The
-generated scene uses the tiled meshes, so the heightmap is not imported by default.
-For a replacement sculptable Landscape use 1009 x 1009, 63 quads per section,
-2 x 2 sections per component and 8 x 8 components. XY scale is approximately
-31.746 cm, Z scale 19.53155 and location (-16000,-16000,3800.076) cm. The raw file
-is unsigned little endian 16 bit and its rows match Unreal's XY coordinates.
-Hide the mesh tiles when using this alternative to avoid overlapping surfaces.
+The entire `dist` folder can be served by a static web host. Use a local HTTP server rather than opening `index.html` as a file because the game uses JavaScript modules.
 
-## Play controls implemented in the source
+The 22 automated tests exercise the actual scene graph and game logic with a simulated DOM and renderer. They parse every real GLB, check exported terrain against the physics heights, and verify uphill rollback, downhill acceleration, collider alignment, gate animation, texture declarations, model installation, camera framing, all six holes, controls, scoring, and storage failure. Tests stub image decoding and do not verify browser WebGL rendering, postprocessing, or real browser input.
 
-Drag backward on the green and release to putt. Alternatively use Left/Right
-arrows to turn and hold/release Space to charge a putt. Right-click cancels.
-The aiming line shows direction; it is not a predicted trajectory.
+## Blender source
 
-- Wheel: zoom the close angled overhead camera.
-- C: landscape overview / golf camera.
-- R: retry the current hole; T: restart the round.
-- Enter: advance after sinking; otherwise the next hole loads automatically.
-- F1: lower global illumination quality; F2: high quality. Escape: quit.
+Assets were modeled and exported using Blender 5.2.2 LTS. Open the current Overhead `.blend` file to inspect or edit them. The opening course is visible by default; enable another Course collection and hide the current one to edit a different hole.
 
-The simulation uses a fixed 120 Hz step, slope gravity, rail and bumper rebounds,
-rotating gates, a single-use boost strip, cup capture, stroke totals and a local
-best score in `Saved/best-score.txt`. The six courses retain their earlier rules.
+To regenerate the art, run Blender in background mode with these Python scripts in order:
 
-## Rebuilding and editing
+1. `art/blender/build_garden.py` — models and exports all six courses.
+2. `art/blender/polish_assets.py` — builds the dimpled ball and renders the preview.
+3. `art/blender/refresh_packed_textures.py` — refreshes embedded texture bytes and export reports.
+4. `art/blender/build_highlands.py` — elevates all six courses from the shared profiles and authors the sky and distant scenery.
+5. `art/blender/frame_overhead.py` — frames the new overhead view, brings floating islands into view, and merges backdrop meshes.
 
-`Content/Python/build_highlands.py` creates the native materials, meshes and map.
-It calls `HighlandsAssetBuilder` to turn Blender's exact `PPM3` centimetre geometry
-into real Unreal StaticMesh assets. This preserves UVs, split normals, material
-slots, handedness and pivots without depending on FBX importer axis conventions.
-Standard FBX copies are included alongside these buffers.
-
-The map's generated actors are tagged `PuttPopGenerated`. Rerunning the builder
-replaces those tagged actors and the generated mesh/material assets. User-added
-actors without that tag remain. Keep custom material/mesh edits in separate assets
-because their generated originals will be rebuilt.
-
-The `Editable landscape preview` actor is only an editor presentation. It is
-hidden and destroyed in play and excluded from cooking. The native pawn builds
-the same instanced scenery from `Content/Data/highlands.json` during gameplay.
-
-To regenerate the original artwork, run the installed Blender with:
-
-```powershell
-& "$env:LOCALAPPDATA\Microsoft\WindowsApps\blender-launcher.exe" --background --factory-startup --python "FULL_PATH\arcade-mini-golf\art\blender\build_unreal_highlands.py"
-```
-
-It regenerates `SourceArt` and its `.blend` file; save personal changes separately.
-The generator uses the existing authored course scene. All scenery is procedural
-Blender artwork; no Fab, Marketplace or downloaded commercial assets are required.
-
-## Verification scope
-
-`QA/geometry-checks.json` records the independent export checks: buffer integrity,
-finite vertices, normalized normals, triangle winding, material slots, ball scale,
-each course's actual ramp heights, obstacle pivots and heightmap dimensions.
-These checks do not establish Unreal compilation, import success or playability.
-
-The standalone check in `../../tests/unreal-physics.cpp` compiles the very same
-`Source/PuttPop/GolfSimulation.h` used by the Unreal pawn. Its fixtures are generated
-from the shipped JSON by `../../tests/generate-unreal-course-checks.py`.
-An Unreal build and interactive test remain necessary once the engine is installed.
+Keep `art/blender/courses.json` consistent with `dist/physics.js` when changing layouts or elevation profiles. The same smooth height function drives gravity, ball height, camera height, the aiming guide, and Blender terrain. GLBs load after an elevated fallback course initializes. If an asset cannot load, that basic course remains playable. Models are cached in memory and static details are merged by material to limit draw calls.
