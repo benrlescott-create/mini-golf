@@ -1,0 +1,7 @@
+{
+  "folders": [{"path": "unreal/PuttPop"}],
+  "settings": {
+    "files.exclude": {"**/Intermediate": true,"**/DerivedDataCache": true,"**/Binaries": true},
+    "search.exclude": {"**/SourceArt/*.fbx": true,"**/SourceArt/*.ppmesh": true}
+  }
+}

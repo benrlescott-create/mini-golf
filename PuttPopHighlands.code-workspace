@@ -1,0 +1,7 @@
+{
+  "folders": [{ "name": "Putt Pop Highlands — Unity", "path": "unity/PuttPopHighlands" }],
+  "settings": {
+    "files.exclude": { "**/Library": true, "**/Temp": true, "**/Obj": true, "**/Logs": true },
+    "search.exclude": { "**/Library/**": true, "**/Temp/**": true, "**/Builds/**": true }
+  }
+}
