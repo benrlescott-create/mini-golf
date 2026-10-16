@@ -1,0 +1,10 @@
+{
+  "FileVersion": 3,
+  "Category": "Games",
+  "Description": "Putt Pop Highlands - six elevated mini golf courses in an original Blender alpine environment.",
+  "Modules": [{"Name": "PuttPop", "Type": "Runtime", "LoadingPhase": "Default"}],
+  "Plugins": [
+    {"Name": "PythonScriptPlugin", "Enabled": true},
+    {"Name": "EditorScriptingUtilities", "Enabled": true}
+  ]
+}
